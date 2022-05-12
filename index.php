@@ -23,171 +23,103 @@ che saranno disponibili solo in un periodo particolare (es. da maggio ad agosto)
 <body>
 
 <?php
-class p_animali {
-    public $iscrizione;
-    public $cartaCredito;
+
+class prodotto {
+    public $nome;
     public $prezzo;
+    public $quantita;
 
-    function __construct($_prezzo, $_cartaCredito, $_iscrizione) {
-    $this -> setCredito($_cartaCredito);
-    $this -> setIscrizione($_iscrizione);
-    $this -> setPrezzo($cartaCredito, $iscrizione, $_prezzo );
+    use spedizione;
+
+    public function setNome($_nome){
+        $this-> nome = $_nome;
     }
-
-
-
-    public function setCredito($_cartaCredito){
-        if(($_cartaCredito =! "no") && (date($_cartaCredito) >= date(DATE_RFC2822))){
-           return $this -> cartaCredito = "valida"; 
-        } elseif(($_cartaCredito =! "no") && (date($_cartaCredito) < date(DATE_RFC2822))){
-            return $this -> cartaCredito = "scaduta";
+    public function getNome(){
+        return $this-> nome;
+    }
+    public function setPrezzo($_prezzo){
+        
+        if((is_numeric($_prezzo) == true) && ($_prezzo > 0)){
+            $this-> prezzo = $_prezzo;
         } else {
-            return $this -> cartaCredito = "valore non valido o assente";
+            throw new Exception('Non è un numero oppure è negativo o guale a 0');
         }
     }
-
-    public function setIscrizione($_iscrizione){
-        if(($_iscrizione == "si") || ($_iscrizione == true)){
-           return $this -> iscrizione = "iscritto"; 
-        } else {
-            return $this -> iscrizione = "non iscritto";
-        }
-    }
-
-    public function setPrezzo($cartaCredito, $iscrizione, $_prezzo ){
-        if(($cartaCredito == "valida") && ($iscrizione == "iscritto") && (is_numeric($_prezzo) == true)){
-           return $this -> prezzo = $_prezzo*0.8;
-        } elseif((is_numeric($_prezzo) == true) && (($cartaCredito != "valida") || ($iscrizione != "iscritto"))){
-             return $this -> prezzo = $_prezzo;
-        } else {
-            return $this -> prezzo = "valore del prezzo inserito non valido";
-        }
-    }
-    
     public function getPrezzo(){
-        return $this -> prezzo;
+        
+        return $this-> prezzo;
     }
-    public function getCartaCredito(){
-        return $this -> cartaCredito;
+    public function setQuantita($_quantita){
+        
+        if((is_numeric($_quantita) == true) && ($_quantita > 0)){
+            $this-> quantita = $_quantita;
+        } else {
+            throw new Exception('Non è un numero oppure è negativo o guale a 0');
+        }
     }
-    public function getIscrizione(){
-        return $this -> iscrizione;
+    public function getQuantita(){
+        
+        return $this-> quantita;
     }
+
+    public function __construct($_nome, $_prezzo, $_quantita){
+        $this-> setNome($_nome);
+        $this-> setPrezzo($_prezzo);
+        $this-> setQuantita($_quantita);
+    }
+}
+trait spedizione{
+    public $giorniSpedizione;
+    public function setSpedizione(){
+        $this-> giorniSpedizione = rand(1, 3);
+    }
+    public function getSpedizione(){
+        $this-> giorniSpedizione;
+    }
+}
+
+class p_casa extends prodotto {
+    use spedizione;
+    public function __construct($_nome, $_prezzo, $_quantita){
+        parent::__construct($_nome, $_prezzo, $_quantita);
+       $this-> setSpedizione();
+    }
+}
+
+class p_cura extends prodotto {
+    use spedizione;
+    public $tipo;
+    public function setTipo($_tipo){
+        if(($_tipo == "medicina") || ($_tipo == "bagno"))
+        {$this-> tipo = $_tipo;}else {
+        throw new Exception('tipo deve essere uguale o a medicina o a bagno');
+    }
+    } 
+    public function getSpedizione(){
+        $this-> tipo;
+    }
+    public function __construct($_nome, $_prezzo, $_quantita, $_tipo){
+        parent::__construct($_nome, $_prezzo, $_quantita);
+       $this-> setSpedizione();
+       $this-> setTipo($_tipo);
+    }
+
+    trait datiPersonali{
+    public $nome;
+    public $cognome;
+    public $dataNascita
+    public function setSpedizione(){
+        $this-> giorniSpedizione = rand(1, 3);
+    }
+    public function getSpedizione(){
+        $this-> giorniSpedizione;
+    }
+}
 }
 
 
 
-class casa extends p_animali{
-   public $nome; 
-   public $tipo;
-
-   public function setNome($_nome){
-   return $this -> nome = $_nome;
-   }
-   public function setTipo(){
-   return $this -> tipo = "casa";
-   }
-   public function getNome(){
-   return $this -> nome;
-   }
-   public function getTipo(){
-   return $this -> tipo;
-   }
-   function __construct($_nome, $_prezzo, $_cartaCredito, $_iscrizione) {
-    $this -> setNome($_nome);
-    $this -> setTipo();
-    parent::__construct($_prezzo, $_cartaCredito, $_iscrizione);
-    }
-};
-
-class cibo extends p_animali{
-   public $nome; 
-   public $tipo;
-
-   public function setNome($_nome){
-   return $this -> nome = $_nome;
-   }
-   public function setTipo(){
-   return $this -> tipo = "cibo";
-   }
-   public function getNome(){
-   return $this -> nome;
-   }
-   public function getTipo(){
-   return $this -> tipo;
-   }
-   function __construct($_nome, $_prezzo, $_cartaCredito, $_iscrizione) {
-    $this -> setNome($_nome);
-    $this -> setTipo();
-    parent::__construct($_prezzo, $_cartaCredito, $_iscrizione);
-    }
-}
-
-class cura extends p_animali{
-   public $nome; 
-   public $tipo;
-
-   public function setNome($_nome){
-   return $this -> nome = $_nome;
-   }
-   public function setTipo(){
-   return $this -> tipo = "cura";
-   }
-   public function getNome(){
-   return $this -> nome;
-   }
-   public function getTipo(){
-   return $this -> tipo;
-   }
-   function __construct($_nome, $_prezzo, $_cartaCredito, $_iscrizione) {
-    $this -> setNome($_nome);
-    $this -> setTipo();
-    parent::__construct($_prezzo, $_cartaCredito, $_iscrizione);
-    }
-}
-
-class cucce extends casa{
-   public $peso;
-   public $costoSpedizione;
-   public $prezzoTotale;
-
-    function __construct($_nome, $_prezzo, $_cartaCredito, $_iscrizione, $_peso) {
-    parent::__construct($_nome, $_prezzo, $_cartaCredito, $_iscrizione);
-    $this -> setPeso($_peso);
-    $this -> setCostoSpedizione($_peso);
-    $this -> setPrezzoTotale($prezzo, $costoSpedizione);
-    }
-   public function setPeso($_peso){
-       return $this -> peso = $_peso;
-   }
-   public function setCostoSpedizione($_peso){
-       if( ($_peso > 0) && ($_peso < 10)){
-           return $this -> costoSpedizione = 10;
-       } elseif((10 <= $_peso) && ($_peso < 25)){
-           return $this -> costoSpedizione = 20;
-       } else {
-           return $this -> costoSpedizione = 30;
-       }
-   }
-   public function setPrezzoTotale($prezzo, $costoSpedizione){
-    return $this -> prezzoTotale = $prezzo + $costoSpedizione;
-   }
-
-  public function getPeso(){
-       return $this -> peso;
-  }
-
-  public function getCostoSpedizione(){
-       return $this -> costoSpedizione;
-  }
-
-  public function getPrezzoTotale(){
-       return $this -> prezzoTotale;
-  }
-
-   
-}
-$pippo = new cucce("pippo", 50, DATE_RFC2822, "si", 10);
+$pippo =  new p_cura("pippo", 45, 67, "bagno");
 var_dump($pippo);
 ?>
 
