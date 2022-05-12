@@ -75,7 +75,119 @@ class p_animali {
     }
 }
 
-$pippo = new p_animali(50, "DATE_RFC2822", "si");
+
+
+class casa extends p_animali{
+   public $nome; 
+   public $tipo;
+
+   public function setNome($_nome){
+   return $this -> nome = $_nome;
+   }
+   public function setTipo(){
+   return $this -> tipo = "casa";
+   }
+   public function getNome(){
+   return $this -> nome;
+   }
+   public function getTipo(){
+   return $this -> tipo;
+   }
+   function __construct($_nome, $_prezzo, $_cartaCredito, $_iscrizione) {
+    $this -> setNome($_nome);
+    $this -> setTipo();
+    parent::__construct($_prezzo, $_cartaCredito, $_iscrizione);
+    }
+};
+
+class cibo extends p_animali{
+   public $nome; 
+   public $tipo;
+
+   public function setNome($_nome){
+   return $this -> nome = $_nome;
+   }
+   public function setTipo(){
+   return $this -> tipo = "cibo";
+   }
+   public function getNome(){
+   return $this -> nome;
+   }
+   public function getTipo(){
+   return $this -> tipo;
+   }
+   function __construct($_nome, $_prezzo, $_cartaCredito, $_iscrizione) {
+    $this -> setNome($_nome);
+    $this -> setTipo();
+    parent::__construct($_prezzo, $_cartaCredito, $_iscrizione);
+    }
+}
+
+class cura extends p_animali{
+   public $nome; 
+   public $tipo;
+
+   public function setNome($_nome){
+   return $this -> nome = $_nome;
+   }
+   public function setTipo(){
+   return $this -> tipo = "cura";
+   }
+   public function getNome(){
+   return $this -> nome;
+   }
+   public function getTipo(){
+   return $this -> tipo;
+   }
+   function __construct($_nome, $_prezzo, $_cartaCredito, $_iscrizione) {
+    $this -> setNome($_nome);
+    $this -> setTipo();
+    parent::__construct($_prezzo, $_cartaCredito, $_iscrizione);
+    }
+}
+
+class cucce extends casa{
+   public $peso;
+   public $costoSpedizione;
+   public $prezzoTotale;
+
+    function __construct($_nome, $_prezzo, $_cartaCredito, $_iscrizione, $_peso) {
+    parent::__construct($_nome, $_prezzo, $_cartaCredito, $_iscrizione);
+    $this -> setPeso($_peso);
+    $this -> setCostoSpedizione($_peso);
+    $this -> setPrezzoTotale($prezzo, $costoSpedizione);
+    }
+   public function setPeso($_peso){
+       return $this -> peso = $_peso;
+   }
+   public function setCostoSpedizione($_peso){
+       if( ($_peso > 0) && ($_peso < 10)){
+           return $this -> costoSpedizione = 10;
+       } elseif((10 <= $_peso) && ($_peso < 25)){
+           return $this -> costoSpedizione = 20;
+       } else {
+           return $this -> costoSpedizione = 30;
+       }
+   }
+   public function setPrezzoTotale($prezzo, $costoSpedizione){
+    return $this -> prezzoTotale = $prezzo + $costoSpedizione;
+   }
+
+  public function getPeso(){
+       return $this -> peso;
+  }
+
+  public function getCostoSpedizione(){
+       return $this -> costoSpedizione;
+  }
+
+  public function getPrezzoTotale(){
+       return $this -> prezzoTotale;
+  }
+
+   
+}
+$pippo = new cucce("pippo", 50, DATE_RFC2822, "si", 10);
 var_dump($pippo);
 ?>
 
