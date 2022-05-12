@@ -23,34 +23,60 @@ che saranno disponibili solo in un periodo particolare (es. da maggio ad agosto)
 <body>
 
 <?php
+class p_animali {
+    public $iscrizione;
+    public $cartaCredito;
+    public $prezzo;
 
-class prodotti_animali {
-    public  $prezzo;
-    public  $codice;
-
-
-    public function setPrezzo($_prezzo){
-      $this-> prezzo = $_prezzo;
-       return $this-> prezzo;
+    function __construct($_prezzo, $_cartaCredito, $_iscrizione) {
+    $this -> setCredito($_cartaCredito);
+    $this -> setIscrizione($_iscrizione);
+    $this -> setPrezzo($cartaCredito, $iscrizione, $_prezzo );
     }
+
+
+
+    public function setCredito($_cartaCredito){
+        if(($_cartaCredito =! "no") && (date($_cartaCredito) >= date(DATE_RFC2822))){
+           return $this -> cartaCredito = "valida"; 
+        } elseif(($_cartaCredito =! "no") && (date($_cartaCredito) < date(DATE_RFC2822))){
+            return $this -> cartaCredito = "scaduta";
+        } else {
+            return $this -> cartaCredito = "valore non valido o assente";
+        }
+    }
+
+    public function setIscrizione($_iscrizione){
+        if(($_iscrizione == "si") || ($_iscrizione == true)){
+           return $this -> iscrizione = "iscritto"; 
+        } else {
+            return $this -> iscrizione = "non iscritto";
+        }
+    }
+
+    public function setPrezzo($cartaCredito, $iscrizione, $_prezzo ){
+        if(($cartaCredito == "valida") && ($iscrizione == "iscritto") && (is_numeric($_prezzo) == true)){
+           return $this -> prezzo = $_prezzo*0.8;
+        } elseif((is_numeric($_prezzo) == true) && (($cartaCredito != "valida") || ($iscrizione != "iscritto"))){
+             return $this -> prezzo = $_prezzo;
+        } else {
+            return $this -> prezzo = "valore del prezzo inserito non valido";
+        }
+    }
+    
     public function getPrezzo(){
-      return $this-> prezzo;
+        return $this -> prezzo;
     }
-     public function setCodice($_codice){
-      $this-> codice = $_codice;
-      return $this-> codice;
+    public function getCartaCredito(){
+        return $this -> cartaCredito;
     }
-    public function getCodice(){
-     return $this-> codice;
+    public function getIscrizione(){
+        return $this -> iscrizione;
     }
+}
 
-    public function __construct($_prezzo, $_codice){
-        $this-> setPrezzo($_prezzo);
-        $this-> setCodice($_codice);
-    }
-};
-
-
+$pippo = new p_animali(50, "DATE_RFC2822", "si");
+var_dump($pippo);
 ?>
 
 
